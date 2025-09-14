@@ -2,8 +2,15 @@ from flask import Flask, request, jsonify, render_template
 from ultralytics import YOLO
 import os
 from PIL import Image
-
+import gdown
+def download_model():
+    model_path = "best.pt"
+    if not os.path.exists(model_path):
+        print("Downloading YOLOv8 model from Google Drive...")
+        file_id = "1CHmF_c49hNzlBL2K72-qbkTMz2TEXbBL"
+        gdown.download(f"https://drive.google.com/uc?id={file_id}", model_path, quiet=False)
 app = Flask(__name__)
+download_model()
 model = YOLO("best.pt")  # Path to your YOLOv8 model
 
 UPLOAD_FOLDER = "uploads"
