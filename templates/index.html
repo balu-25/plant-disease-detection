@@ -114,9 +114,9 @@
 
             resultDiv.innerHTML = "Predicting... 🌱";
             try {
-                const response = await fetch("/predict", {
-                    method: "POST",
-                    body: formData
+                const response = await fetch(window.location.origin + "/predict", {
+                method: "POST",
+                body: formData
                 });
                 const data = await response.json();
 
