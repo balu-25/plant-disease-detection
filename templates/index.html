@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Plant Disease Detection</title>
     <style>
-        /* General Body */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(to right, #a8e6cf, #dcedc1);
@@ -23,7 +22,6 @@
             text-shadow: 1px 1px 2px #ffffff;
         }
 
-        /* Card Container */
         .card {
             background: #ffffff;
             border-radius: 15px;
@@ -39,7 +37,6 @@
             transform: translateY(-5px);
         }
 
-        /* File Input */
         input[type=file] {
             padding: 10px;
             border: 2px dashed #2e7d32;
@@ -53,7 +50,6 @@
             background: #f1f8e9;
         }
 
-        /* Submit Button */
         button {
             margin-top: 20px;
             padding: 12px 25px;
@@ -72,7 +68,6 @@
             transform: scale(1.05);
         }
 
-        /* Result Box */
         #result {
             margin-top: 20px;
             padding: 15px;
@@ -115,9 +110,16 @@
             resultDiv.innerHTML = "Predicting... 🌱";
             try {
                 const response = await fetch(window.location.origin + "/predict", {
-                method: "POST",
-                body: formData
+                    method: "POST",
+                    body: formData
                 });
+
+                const contentType = response.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
+                    const text = await response.text();
+                    throw new Error("Server returned non-JSON response: " + text.substring(0, 200));
+                }
+
                 const data = await response.json();
 
                 if (data.prediction) {
@@ -132,7 +134,7 @@
                     resultDiv.innerHTML = "Error: " + data.error;
                 }
             } catch (err) {
-                resultDiv.innerHTML = "Error: " + err;
+                resultDiv.innerHTML = "Error: " + err.message;
             }
         });
     </script>
