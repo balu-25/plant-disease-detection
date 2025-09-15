@@ -4,10 +4,10 @@ import os
 from PIL import Image
 import gdown
 def download_model():
-    model_path = "best.pt"
+    model_path = "yolov8.pt"
     if not os.path.exists(model_path):
         print("Downloading YOLOv8 model from Google Drive...")
-        file_id = "1CHmF_c49hNzlBL2K72-qbkTMz2TEXbBL"
+        file_id = "1PNyhvH4XNBTrERjrwccB9CPFJl1TN88z"
         gdown.download(f"https://drive.google.com/uc?id={file_id}", model_path, quiet=False)
 app = Flask(__name__)
 download_model()
